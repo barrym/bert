@@ -2,14 +2,14 @@
 -compile(export_all).
 
 -define(LISTEN_PORT, 11300).
--define(TCP_OPTS, [list, {packet, 0}, {active, false}, {reuseaddr, true}]).
+-define(TCP_OPTS, [binary, {packet, 4}, {active, false}, {reuseaddr, true}]).
 
 start() ->
   start(?LISTEN_PORT).
 
 start(Port) ->
   io:format("Starting~n"),
-  case gen_tcp:listen(Port, [binary, {packet, 4}, {active, false}, {reuseaddr, true}]) of
+  case gen_tcp:listen(Port, ?TCP_OPTS) of
     {ok, ListeningSocket} ->
       io:format("~p Server started ~p~n", [?MODULE, erlang:localtime()]),
       accept_connection(ListeningSocket);
